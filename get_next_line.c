@@ -21,15 +21,14 @@
 #endif
 
 //Fonction pour ecrire null
-char	*writing_null(void)
+/*char	*writing_null(void)
 {
 	write(1, "null", 4);
-	return ("null");
-}
+	return ("null");}*/
 
 //Foncton pour recuperer la ligne a AFFICHER :
 //fd en parametre | cree une nouvelle string str 
-char	*getting_new_line(int fd)
+char	*getting_old_line(int fd, char *old_line)
 {
 	char		*str;
 	ssize_t		read_bytes;
@@ -38,38 +37,53 @@ char	*getting_new_line(int fd)
 	i = 0;
 	str = (char *)malloc((BUFFER_SIZE + 1) + sizeof(char));
 	if (!str)
-		return (writing_null());
+		return (NULL);
 	read_bytes = 1;
 	read_bytes = read(fd, str, BUFFER_SIZE);
 	if (read_bytes == -1)
 	{
 		free(str);
-		return(writing_null());
+		return(NULL);
 	}
 	while (str[i] && str[i] != '\n')
+		i++;
+	str[i] = '\0';
+	old_line = ft_strjoin(old_line, str);
+	free(str);
+	return (old_line);
+}
+
+char	*making_new_line(char *old_line)
+{
+	char	*str;
+	int	i;
+	
+	i = 0;
+	while (old_line[i] && old_line[i] != '\n')
 	{
+		i++;
+	}
+	i = 0;
+	str = (char*)malloc((i+1)*sizeof(char));
+	if (!str)
+	return (NULL);
+	while (old_line[i] && old_line[i] != '\n')
+	{
+		str[i] = old_line[i];
 		i++;
 	}
 	str[i] = '\0';
 	return (str);
 }
 
-char	*writing_old_line(char *new_str)
+char	*updating_old_line(char *old_line)
 {
 	int	i;
+	int	j;
+	int	length;
 	char	*str;
-
-	i = 0;
-	str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!str)
-		return(writing_null());
-	while (i < BUFFER_SIZE && str[i])
-	{
-		str[i] = new_str[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	
+	
 }
 
 char	*get_next_line(int fd)
@@ -77,12 +91,12 @@ char	*get_next_line(int fd)
 	char		*new_line;
 	static char	*old_line;
 
-	new_line = getting_new_line(fd);
+	old_line = getting_old_line(fd, old_line);
 	printf("%s\n" , new_line);
-	old_line = writing_old_line(new_line);
+	new_line = making_new_line(old_line);
 	printf("%s\n" , old_line);
-	free(new_line);
-	return (old_line);
+	old_line = updating_old_line(old_line, new_line);
+	return (new_line;
 }
 
 int	main()
