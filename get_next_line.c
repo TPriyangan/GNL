@@ -6,7 +6,7 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:31:35 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/08 16:23:06 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:23:08 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,6 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)(s + i));
 		i++;
 	}
-	if (s[i] == (char)c)
-		return ((char *)(s + i));
 	return (NULL);
 }
 
@@ -171,22 +169,10 @@ char	*ft_new_line_from_stic(char *stic_line)
 {
 	int	i;
 	char	*new_line;
-
-	i = 0;
-	printf("%i\n", i);
-	while (stic_line[i] && stic_line[i] != '\n')
-		i++;
-	new_line = (char *)malloc((i + 2) + sizeof(char));
-	if (!new_line)
-		return(NULL);
-	if (stic_line[i] == '\n')
-	{
-		new_line[i] = '\n';
-		new_line[i + 1] = '\0';
 	}
 	else
-		new_line[i] = '\0';
-	while(i > 0)
+		new_line[i] = '\0';	
+	while(i >= 0)
 	{
 		new_line[i] = stic_line[i];
 		i--;
@@ -203,23 +189,22 @@ char	*ft_cutting_output_line_from_stic(char *stic_line)
 	i = 0;
 	while (stic_line[i] && stic_line[i] != '\n')
 		i++;
-	cut_line = (char *)malloc((ft_strlen(stic_line - i + 1) + sizeof(char)));
+	if (!stic_line)
+	{
+		free(stic_line);
+		return(NULL);
+	}
+	cut_line = (char *)malloc((ft_strlen(stic_line) -i + 1) + sizeof(char));
 	if (!cut_line)
 		return(NULL);
 	j = 0;
-	while (stic_line[i] && stic_line[i] != '\n')
+	while (cut_line[j])
 	{
 		cut_line[j] = stic_line[i];
 		i++;
 		j++;
 	}
-	if (stic_line[i] == '\n')
-	{
-		cut_line[j] = '\n';
-		cut_line[j+ 1] = '\n';
-	}
-	else
-		cut_line[j] = '\n';
+	cut_line[j] = '\0';
 	free(stic_line);
 	return(cut_line);
 }
@@ -229,7 +214,13 @@ char	*get_next_line(int fd)
 	char	*new_line;
 	static char	*stic_line;
 
+	if (BUFFER_SIZE < 0)
+		return (NULL);
+	if (fd < 0)
+		return (NULL);
 	stic_line = ft_getting_line_from_read(fd, stic_line);
+	if (!stic_line)
+		return (NULL);
 	new_line = ft_new_line_from_stic(stic_line);
 	stic_line = ft_cutting_output_line_from_stic(stic_line);
 	return (new_line);
@@ -248,7 +239,7 @@ int	main()
 		line = get_next_line(fd);
 		if (line == NULL)
 			break;
-		printf("%s", line);
+		printf("Line : %s\n", line);
 		free(line);
 	}
 	return(0);
