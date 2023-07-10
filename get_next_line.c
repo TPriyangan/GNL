@@ -6,7 +6,7 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:31:35 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/09 15:23:08 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:44:38 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ char	*ft_getting_line_from_read(int fd, char *stic_line)
 	ssize_t	nbyte;
 	char	*buf;
 
-	buf = (char *)malloc((BUFFER_SIZE + 1) + sizeof(char));
+	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if(!buf)
 	{
 		return(NULL);
@@ -169,14 +169,21 @@ char	*ft_new_line_from_stic(char *stic_line)
 {
 	int	i;
 	char	*new_line;
-	}
-	else
-		new_line[i] = '\0';	
-	while(i >= 0)
+
+	while (stic_line[i] && stic_line[i] != '\n')
+		i++;
+	new_line = (char *)malloc((i + 2) * sizeof(char));
+	if (!new_line)
+		return (NULL);
+	i = 0;
+	while (stic_line[i] && stic_line[i] != '\n')
+		new_line[i] = stic_line[i];
+	if (stic_line[i] == '\n')
 	{
 		new_line[i] = stic_line[i];
-		i--;
+		i++;
 	}
+	new_line[i] = '\0';
 	return(new_line);
 }
 
