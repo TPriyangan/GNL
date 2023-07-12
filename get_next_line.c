@@ -6,7 +6,7 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:31:35 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/10 14:44:38 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:05:58 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,10 @@ char	*ft_new_line_from_stic(char *stic_line)
 		return (NULL);
 	i = 0;
 	while (stic_line[i] && stic_line[i] != '\n')
+	{
 		new_line[i] = stic_line[i];
+		i++;
+	}
 	if (stic_line[i] == '\n')
 	{
 		new_line[i] = stic_line[i];
@@ -201,11 +204,11 @@ char	*ft_cutting_output_line_from_stic(char *stic_line)
 		free(stic_line);
 		return(NULL);
 	}
-	cut_line = (char *)malloc((ft_strlen(stic_line) -i + 1) + sizeof(char));
+	cut_line = (char *)malloc((ft_strlen(stic_line) -i + 1) * sizeof(char));
 	if (!cut_line)
 		return(NULL);
 	j = 0;
-	while (cut_line[j])
+	while (stic_line[i])
 	{
 		cut_line[j] = stic_line[i];
 		i++;
