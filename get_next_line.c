@@ -6,7 +6,7 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:31:35 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/12 15:05:58 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:33:10 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ char	*making_new_line(char *old_line)
 }
 */
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -109,23 +109,23 @@ char	*ft_strjoin(char *s1, char *s2)
 	ptr = (char *)malloc((i + j + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
-	while (k < i)
+	while (s1[k])
 	{
 		ptr[k] = s1[k];
 		k++;
 	}
-	while (k < i + j)
+	while (s2[k - i])
 	{
 		ptr[k] = s2[k - i];
 		k++;
 	}
-	ptr[k] = '\0';
+	ptr[i + j] = '\0';
 	return (ptr);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
-	unsigned int	i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -136,7 +136,7 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)(s + i));
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*ft_getting_line_from_read(int fd, char *stic_line)
@@ -170,6 +170,9 @@ char	*ft_new_line_from_stic(char *stic_line)
 	int	i;
 	char	*new_line;
 
+	i = 0;
+	if (!stic_line[i])
+		return (NULL);
 	while (stic_line[i] && stic_line[i] != '\n')
 		i++;
 	new_line = (char *)malloc((i + 2) * sizeof(char));
@@ -199,7 +202,7 @@ char	*ft_cutting_output_line_from_stic(char *stic_line)
 	i = 0;
 	while (stic_line[i] && stic_line[i] != '\n')
 		i++;
-	if (!stic_line)
+	if (!stic_line[i])
 	{
 		free(stic_line);
 		return(NULL);
@@ -207,12 +210,16 @@ char	*ft_cutting_output_line_from_stic(char *stic_line)
 	cut_line = (char *)malloc((ft_strlen(stic_line) -i + 1) * sizeof(char));
 	if (!cut_line)
 		return(NULL);
+	i++;
 	j = 0;
-	while (stic_line[i])
+	if (stic_line[i])
 	{
-		cut_line[j] = stic_line[i];
-		i++;
-		j++;
+		while (stic_line[i])
+		{
+			cut_line[j] = stic_line[i];
+			i++;
+			j++;
+		}
 	}
 	cut_line[j] = '\0';
 	free(stic_line);
@@ -225,9 +232,9 @@ char	*get_next_line(int fd)
 	static char	*stic_line;
 
 	if (BUFFER_SIZE < 0)
-		return (NULL);
-	if (fd < 0)
-		return (NULL);
+		return (0);
+	if (fd <= 0)
+		return (0);
 	stic_line = ft_getting_line_from_read(fd, stic_line);
 	if (!stic_line)
 		return (NULL);
@@ -235,6 +242,7 @@ char	*get_next_line(int fd)
 	stic_line = ft_cutting_output_line_from_stic(stic_line);
 	return (new_line);
 }
+
 
 #include <fcntl.h>
 
@@ -249,7 +257,7 @@ int	main()
 		line = get_next_line(fd);
 		if (line == NULL)
 			break;
-		printf("Line : %s\n", line);
+		printf("Line : %s", line);
 		free(line);
 	}
 	return(0);
