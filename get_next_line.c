@@ -6,14 +6,11 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:31:35 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/19 15:06:04 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:45:03 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
 
 char	*ft_getting_line_from_read(int fd, char *stic_line)
 {
