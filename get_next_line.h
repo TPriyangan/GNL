@@ -6,7 +6,7 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:15:29 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/21 14:04:02 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/22 12:50:51 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 75
+#  define BUFFER_SIZE 950
 # endif
 
 size_t	ft_strlen(char *s);
