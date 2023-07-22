@@ -6,14 +6,16 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:15:29 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/21 13:59:57 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:04:02 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
 # include <stdlib.h>
 # include <unistd.h>
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 75
 # endif
