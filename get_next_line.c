@@ -6,7 +6,7 @@
 /*   By: tpriyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:31:35 by tpriyang          #+#    #+#             */
-/*   Updated: 2023/07/22 13:13:42 by tpriyang         ###   ########.fr       */
+/*   Updated: 2023/07/22 13:33:35 by tpriyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ char	*get_next_line(int fd)
 	static char	*stic_line;
 
 	if (BUFFER_SIZE <= 0 || !BUFFER_SIZE)
-		return (0);
+		return (NULL);
 	if (fd < 0)
-		return (0);
+		return (NULL);
 	stic_line = ft_getting_line_from_read(fd, stic_line);
 	if (!stic_line)
-		return (0);
+		return (NULL);
 	new_line = ft_new_line_from_stic(stic_line);
 	stic_line = ft_cutting_output_line_from_stic(stic_line);
 	return (new_line);
